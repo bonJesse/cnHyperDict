@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+            <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGYYKNHRZ9"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-HGYYKNHRZ9');
+        </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM力量喵-中文词语高级查询</title>
+    <title>LLM力量喵V1.2-中文词语高级查询</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         body, html {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-            background-color: #f5f5f7;
+            background-color: #fff8e8; /* 背景色 */
             margin: 0;
             padding: 0;
             height: 100%;
@@ -57,7 +66,7 @@
             display: inline-block;
             width: 100%;
             padding: 12px 20px;
-            background-color: rgba(0, 122, 255, 0.8);
+            background-color: rgba(255, 165, 0, 0.8); /* 按钮颜色 */
             color: white;
             border-radius: 8px;
             cursor: pointer;
@@ -69,7 +78,7 @@
             text-decoration: none;
         }
         .button:hover {
-            background-color: rgba(0, 122, 255, 1);
+            background-color: rgba(255, 165, 0, 1);
         }
         #wordInput {
             width: 100%;
@@ -79,6 +88,7 @@
             border-radius: 8px;
             margin-bottom: 15px;
             box-sizing: border-box;
+            position: relative; /* 使清除按钮定位 */
         }
         #result {
             position: relative;
@@ -107,11 +117,11 @@
             float: right;
             padding: 8px 15px;
             font-size: 14px;
-            background-color: rgba(0, 122, 255, 0.6);
+            background-color: rgba(255, 165, 0, 0.6);
             z-index: 10;
         }
         #copyAllButton:hover {
-            background-color: rgba(0, 122, 255, 0.8);
+            background-color: rgba(255, 165, 0, 0.8);
         }
         #dynamicIsland {
             position: fixed;
@@ -132,7 +142,7 @@
             position: absolute;
             top: 5px;
             right: 5px;
-            background-color: rgba(0, 122, 255, 0.6);
+            background-color: rgba(255, 165, 0, 0.6);
             color: white;
             border: none;
             border-radius: 4px;
@@ -142,7 +152,7 @@
             display: none;
         }
         .copy-button:hover {
-            background-color: rgba(0, 122, 255, 0.8);
+            background-color: rgba(255, 165, 0, 0.8);
         }
         .section-title {
             font-weight: 500;
@@ -151,6 +161,22 @@
         }
         .section-content {
             margin-left: 10px;
+        }
+        .clear-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-40%);
+            background: rgba(240, 235, 225, 0.5);
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            display: none; /* 默认隐藏 */
+        }
+        .clear-button:hover {
+            background: rgba(226, 224, 221, 0.8);
         }
 
         /* 响应式设计 */
@@ -183,14 +209,77 @@
                 padding: 10px;
             }
         }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px; /* 增加底部间距 */
+        }
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        #wordInput {
+            width: 100%;
+            padding: 12px;
+            padding-right: 30px; /* 为清除按钮留出空间 */
+            font-size: 16px;
+            border: 1px solid #d1d1d6;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        .clear-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%); /* 垂直居中 */
+            background: transparent;
+            color: #9c9a9a; /* 灰色 */
+            border: none;
+            width: 20px;
+            height: 20px;
+            font-size: 18px;
+            line-height: 1;
+            cursor: pointer;
+            display: none; /* 默认隐藏 */
+            padding: 0;
+            text-align: center;
+        }
+        .clear-button:hover {
+            color: #666; /* 悬停时稍深的灰色 */
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="left-panel">
+            <!-- 添加logo -->
+            <div class="logo-container">
+                <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 书本形状 -->
+                        <path d="M40 40 L100 30 L160 40 L160 150 L100 160 L40 150 Z" fill="#FF6600" stroke="#FF6600" stroke-width="2"/>
+                        
+                        <!-- 书页 -->
+                        <path d="M45 45 L100 37 L155 45 L155 145 L100 153 L45 145 Z" fill="#FFFFFF" stroke="#FF6600" stroke-width="2"/>
+                        
+                        <!-- 书脊 -->
+                        <path d="M100 30 L100 160" fill="none" stroke="#FF6600" stroke-width="2"/>
+                        
+                        <!-- 简化的线条 -->
+                        <path d="M60 60 L140 60" stroke="#FF6600" stroke-width="2"/>
+                        <path d="M60 80 L140 80" stroke="#FF6600" stroke-width="2"/>
+                        <path d="M60 100 L140 100" stroke="#FF6600" stroke-width="2"/>
+                        
+                        <!-- 泰语文字 -->
+                        <text x="100" y="185" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#FF6600">ก ข ค</text>
+                </svg>
+            </div>
             <div class="card input-card">
-                <h1>LLM力量喵<br>中文词语高级查询V1.1</h1>
-                <input type="text" id="wordInput" placeholder="请输入中文词语">
+                <h1>LLM力量喵<br>中文词语高级查询V1.2</h1>
+                <div class="input-wrapper">
+                    <input type="text" id="wordInput" placeholder="请输入中文词语">
+                    <button id="clearButton" class="clear-button">✖</button>
+                </div>
                 <button id="analyzeButton" class="button">分析词语</button>
             </div>
         </div>
@@ -213,6 +302,7 @@
         const analyzeButton = document.getElementById('analyzeButton');
         const resultDiv = document.getElementById('result');
         const dynamicIsland = document.getElementById('dynamicIsland');
+        const clearButton = document.getElementById('clearButton');
 
         analyzeButton.addEventListener('click', function() {
             const word = wordInput.value.trim();
@@ -258,7 +348,7 @@
                         response.candidates[0].content && response.candidates[0].content.parts &&
                         response.candidates[0].content.parts.length > 0) {
                         const result = response.candidates[0].content.parts[0].text;
-                        displayResult(result);
+                        displayResult(result, word); // 传递原始输入的文本
                         showNotification('分析完成');
                     } else {
                         showNotification('分析失败，请重试');
@@ -269,34 +359,42 @@
                     console.error("API Error:", xhr.responseText);
                 }
             });
+        } 
+        function displayResult(result, originalWord) {
+    const sections = result.split('\n\n');
+    let formattedResult = '';
+    sections.forEach(section => {
+        const [title, ...content] = section.split('\n');
+        let className = '';
+        switch (title.toLowerCase()) {
+            case 'word:': className = 'word'; break;
+            case 'pinyin:': className = 'pinyin'; break;
+            case 'part of speech:': className = 'part-of-speech'; break;
+            case 'english definition:': className = 'definition'; break;
+            case 'thai definition:': className = 'thai-definition'; break;
+            case 'example sentences:': className = 'example'; break;
+            default: className = '';
         }
 
-        function displayResult(result) {
-            const sections = result.split('\n\n');
-            let formattedResult = '';
-            sections.forEach(section => {
-                const [title, ...content] = section.split('\n');
-                let className = '';
-                switch (title.toLowerCase()) {
-                    case 'word:': className = 'word'; break;
-                    case 'pinyin:': className = 'pinyin'; break;
-                    case 'part of speech:': className = 'part-of-speech'; break;
-                    case 'english definition:': className = 'definition'; break;
-                    case 'thai definition:': className = 'thai-definition'; break;
-                    case 'example sentences:': className = 'example'; break;
-                    default: className = '';
-                }
-                formattedResult += `
-                    <div class="info-section ${className}">
-                        <div class="section-title">${title}</div>
-                        <div class="section-content">${content.join('<br>')}</div>
-                    </div>`;
-            });
-            resultDiv.innerHTML = formattedResult;
-            addCopyButtonsToSections();
-            addCopyAllButton();
+        // 修改拼音部分的显示
+        if (title.toLowerCase() === 'pinyin:') {
+            formattedResult += `
+                <div class="info-section ${className}">
+                    <div class="section-title">${title}</div>
+                    <div class="section-content">${originalWord} ${content.join('<br>')}</div>
+                </div>`;
+        } else {
+            formattedResult += `
+                <div class="info-section ${className}">
+                    <div class="section-title">${title}</div>
+                    <div class="section-content">${content.join('<br>')}</div>
+                </div>`;
         }
-
+    });
+    resultDiv.innerHTML = formattedResult;
+    addCopyButtonsToSections();
+    addCopyAllButton();
+}
         function addCopyButtonsToSections() {
             const sections = resultDiv.querySelectorAll('.info-section');
             sections.forEach(section => {
@@ -369,6 +467,18 @@
                 const copyButtons = document.querySelectorAll('.copy-button');
                 copyButtons.forEach(button => button.style.display = 'none');
             }
+        });
+
+        // 显示清除按钮
+        wordInput.addEventListener('input', function() {
+            clearButton.style.display = wordInput.value ? 'block' : 'none';
+        });
+
+        // 清除输入框容
+        clearButton.addEventListener('click', function() {
+            wordInput.value = '';
+            clearButton.style.display = 'none';
+            wordInput.focus();
         });
     </script>
 </body>
