@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM力量喵-中文词语高级查询</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background-color: #f5f5f7;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .left-panel {
+            flex: 0 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .right-panel {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .input-card {
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            font-weight: 400;
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+            text-align: center;
+        }
+        .button {
+            display: inline-block;
+            width: 100%;
+            padding: 12px 20px;
+            background-color: rgba(0, 122, 255, 0.8);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: rgba(0, 122, 255, 1);
+        }
+        #wordInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #d1d1d6;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        #result {
+            position: relative;
+            padding-bottom: 40px;
+        }
+        .info-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .info-section:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .word { background-color: #E8F4F8; }
+        .pinyin { background-color: #E8F8ED; }
+        .part-of-speech { background-color: #FFF8E8; }
+        .definition { background-color: #FCE8F1; }
+        .thai-definition { background-color: #F0E8F8; }
+        .example { background-color: #F3E8F8; }
+        #copyAllButton {
+            position: sticky;
+            bottom: 20px;
+            right: 20px;
+            float: right;
+            padding: 8px 15px;
+            font-size: 14px;
+            background-color: rgba(0, 122, 255, 0.6);
+            z-index: 10;
+        }
+        #copyAllButton:hover {
+            background-color: rgba(0, 122, 255, 0.8);
+        }
+        #dynamicIsland {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            z-index: 1000;
+            display: none;
+            transition: all 0.3s ease;
+            max-width: 80%;
+            text-align: center;
+        }
+        .copy-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 122, 255, 0.6);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 2px 5px;
+            font-size: 12px;
+            cursor: pointer;
+            display: none;
+        }
+        .copy-button:hover {
+            background-color: rgba(0, 122, 255, 0.8);
+        }
+        .section-title {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #1d1d1f;
+        }
+        .section-content {
+            margin-left: 10px;
+        }
+
+        /* 响应式设计 */
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+            .left-panel {
+                flex: 0 0 300px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .left-panel, .right-panel {
+                padding: 10px;
+            }
+            .card {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            .button {
+                padding: 10px 15px;
+            }
+            #wordInput {
+                padding: 10px;
+            }
+            .info-section {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="card input-card">
+                <h1>LLM力量喵<br>中文词语高级查询V1.1</h1>
+                <input type="text" id="wordInput" placeholder="请输入中文词语">
+                <button id="analyzeButton" class="button">分析词语</button>
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="card">
+                <h1>分析结果</h1>
+                <div id="result"></div>
+            </div>
+        </div>·
+    </div>
+
+    <div id="dynamicIsland"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        const API_KEY = "AIzaSyAkm3iPf54B_kY21bWNGECmx7fhuJ4oLQI";
+        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
+
+        const wordInput = document.getElementById('wordInput');
+        const analyzeButton = document.getElementById('analyzeButton');
+        const resultDiv = document.getElementById('result');
+        const dynamicIsland = document.getElementById('dynamicIsland');
+
+        analyzeButton.addEventListener('click', function() {
+            const word = wordInput.value.trim();
+            if (word) {
+                resultDiv.textContent = '';
+                showNotification('正在分析词语...');
+                analyzeWord(word);
+            } else {
+                showNotification('请输入中文词语');
+            }
+        });
+
+        function analyzeWord(word) {
+            const requestData = {
+                contents: [{
+                    parts: [
+                        {text: `请分析以下中文词语，提供以下信息：
+1. 拼音（包含声调）
+2. 词性
+3. 英文释义
+4. 泰语释义
+5. 例句（包括中文、英文和泰语）
+
+词语：${word}`}
+                    ]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    topK: 1,
+                    topP: 1,
+                    maxOutputTokens: 2048,
+                },
+            };
+
+            $.ajax({
+                url: API_URL + "?key=" + API_KEY,
+                type: "POST",
+                data: JSON.stringify(requestData),
+                contentType: "application/json",
+                dataType: "json",
+                success: function(response) {
+                    if (response && response.candidates && response.candidates.length > 0 &&
+                        response.candidates[0].content && response.candidates[0].content.parts &&
+                        response.candidates[0].content.parts.length > 0) {
+                        const result = response.candidates[0].content.parts[0].text;
+                        displayResult(result);
+                        showNotification('分析完成');
+                    } else {
+                        showNotification('分析失败，请重试');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    showNotification('分析失败，请重试');
+                    console.error("API Error:", xhr.responseText);
+                }
+            });
+        }
+
+        function displayResult(result) {
+            const sections = result.split('\n\n');
+            let formattedResult = '';
+            sections.forEach(section => {
+                const [title, ...content] = section.split('\n');
+                let className = '';
+                switch (title.toLowerCase()) {
+                    case 'word:': className = 'word'; break;
+                    case 'pinyin:': className = 'pinyin'; break;
+                    case 'part of speech:': className = 'part-of-speech'; break;
+                    case 'english definition:': className = 'definition'; break;
+                    case 'thai definition:': className = 'thai-definition'; break;
+                    case 'example sentences:': className = 'example'; break;
+                    default: className = '';
+                }
+                formattedResult += `
+                    <div class="info-section ${className}">
+                        <div class="section-title">${title}</div>
+                        <div class="section-content">${content.join('<br>')}</div>
+                    </div>`;
+            });
+            resultDiv.innerHTML = formattedResult;
+            addCopyButtonsToSections();
+            addCopyAllButton();
+        }
+
+        function addCopyButtonsToSections() {
+            const sections = resultDiv.querySelectorAll('.info-section');
+            sections.forEach(section => {
+                const copyButton = document.createElement('button');
+                copyButton.textContent = '复制';
+                copyButton.className = 'copy-button';
+                copyButton.addEventListener('click', function() {
+                    copyTextToClipboard(section.innerText);
+                    showNotification('已复制');
+                });
+                section.style.position = 'relative';
+                section.appendChild(copyButton);
+            });
+        }
+
+        function addCopyAllButton() {
+            const copyAllButton = document.createElement('button');
+            copyAllButton.textContent = '复制全文';
+            copyAllButton.id = 'copyAllButton';
+            copyAllButton.className = 'button';
+            copyAllButton.addEventListener('click', function() {
+                copyTextToClipboard(resultDiv.innerText);
+                showNotification('已复制全文');
+            });
+            resultDiv.appendChild(copyAllButton);
+        }
+
+        function copyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        }
+
+        function showNotification(message) {
+            dynamicIsland.textContent = message;
+            dynamicIsland.style.display = 'block';
+            setTimeout(() => {
+                dynamicIsland.style.display = 'none';
+            }, 3000);
+        }
+
+        document.addEventListener('selectionchange', function() {
+            const selection = window.getSelection();
+            const copyButtons = document.querySelectorAll('.copy-button');
+            copyButtons.forEach(button => button.style.display = 'none');
+
+            if (!selection.isCollapsed) {
+                const range = selection.getRangeAt(0);
+                const rect = range.getBoundingClientRect();
+                const button = document.createElement('button');
+                button.textContent = '复制';
+                button.className = 'copy-button';
+                button.style.position = 'fixed';
+                button.style.left = `${rect.right}px`;
+                button.style.top = `${rect.top - 30}px`;
+                button.addEventListener('click', function() {
+                    copyTextToClipboard(selection.toString());
+                    showNotification('已复制选中文本');
+                    this.remove();
+                });
+                document.body.appendChild(button);
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('copy-button')) {
+                const copyButtons = document.querySelectorAll('.copy-button');
+                copyButtons.forEach(button => button.style.display = 'none');
+            }
+        });
+    </script>
+</body>
+</html>
