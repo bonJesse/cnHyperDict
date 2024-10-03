@@ -210,10 +210,26 @@
             }
         }
         .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px; /* 增加底部间距 */
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px; /* 减少底部间距 */
+        width: 100px; /* 设置一个固定宽度 */
+        height: 100px; /* 设置一个固定高度 */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .logo-container svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    @media (max-width: 767px) {
+        .logo-container {
+            width: 50px; /* 在移动设备上稍微缩小logo */
+            height: 50px;
         }
+    }
         .input-wrapper {
             position: relative;
             width: 100%;
@@ -255,24 +271,24 @@
         <div class="left-panel">
             <!-- 添加logo -->
             <div class="logo-container">
-                <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-                        <!-- 书本形状 -->
-                        <path d="M40 40 L100 30 L160 40 L160 150 L100 160 L40 150 Z" fill="#FF6600" stroke="#FF6600" stroke-width="2"/>
-                        
-                        <!-- 书页 -->
-                        <path d="M45 45 L100 37 L155 45 L155 145 L100 153 L45 145 Z" fill="#FFFFFF" stroke="#FF6600" stroke-width="2"/>
-                        
-                        <!-- 书脊 -->
-                        <path d="M100 30 L100 160" fill="none" stroke="#FF6600" stroke-width="2"/>
-                        
-                        <!-- 简化的线条 -->
-                        <path d="M60 60 L140 60" stroke="#FF6600" stroke-width="2"/>
-                        <path d="M60 80 L140 80" stroke="#FF6600" stroke-width="2"/>
-                        <path d="M60 100 L140 100" stroke="#FF6600" stroke-width="2"/>
-                        
-                        <!-- 泰语文字 -->
-                        <text x="100" y="185" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#FF6600">ก ข ค</text>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                    <!-- 书本形状 -->
+                    <path d="M10 10 L25 7.5 L40 10 L40 37.5 L25 40 L10 37.5 Z" fill="#FF6600" stroke="#FF6600" stroke-width="0.5"/>
+                    
+                    <!-- 书页 -->
+                    <path d="M11.25 11.25 L25 9.25 L38.75 11.25 L38.75 36.25 L25 38.25 L11.25 36.25 Z" fill="#FFFFFF" stroke="#FF6600" stroke-width="0.5"/>
+                    
+                    <!-- 书脊 -->
+                    <path d="M25 7.5 L25 40" fill="none" stroke="#FF6600" stroke-width="0.5"/>
+                    
+                    <!-- 简化的线条 -->
+                    <path d="M15 15 L35 15" stroke="#FF6600" stroke-width="0.5"/>
+                    <path d="M15 20 L35 20" stroke="#FF6600" stroke-width="0.5"/>
+                    <path d="M15 25 L35 25" stroke="#FF6600" stroke-width="0.5"/>
+                    
+                    <!-- 泰语文字 -->
+                    <text x="25" y="46" font-family="Arial, sans-serif" font-size="6" text-anchor="middle" fill="#FF6600">ก ข ค</text>
+                  </svg>
             </div>
             <div class="card input-card">
                 <h1>LLM力量喵<br>中文词语高级查询V1.2</h1>
