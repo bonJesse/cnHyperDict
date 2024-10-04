@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM力量喵V1.3.3-中文词语高级查询</title>
+    <title>LLM力量喵V1.3.5-中文词语高级查询</title>
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGYYKNHRZ9"></script>
     <script>
@@ -104,7 +104,45 @@
             margin-bottom: 15px;
             box-sizing: border-box;
         }
+        /* Functionality buttons styles */
+        .functionality-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
 
+        .icon-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #FF6600;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .icon-button:hover {
+            background-color: rgba(255, 102, 0, 0.1);
+        }
+    /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .card {
+            background-color: #2a2a2a;
+        }
+
+        body.dark-mode .icon-button {
+            color: #FFA500;
+        }
+
+        body.dark-mode .icon-button:hover {
+            background-color: rgba(255, 165, 0, 0.2);
+        }
         /* Result styles */
         #result {
             position: relative;
@@ -316,12 +354,23 @@
                 </svg>
             </div>
             <div class="card input-card">
-                <h1>LLM力量喵<br>中文词语高级查询V1.3.3</h1>
+                <h1>LLM力量喵<br>中文词语高级查询V1.3.5</h1>
                 <div class="input-wrapper">
                     <input type="text" id="wordInput" placeholder="请输入中文词语">
                     <button id="clearButton" class="clear-button">✖</button>
                 </div>
                 <button id="analyzeButton" class="button">分析词语</button>
+            </div>
+            <div class="functionality-buttons">
+                <button id="themeToggle" class="icon-button" title="切换日间/夜间模式">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <button id="languageToggle" class="icon-button" title="切换语言">
+                    <i class="fas fa-language"></i>
+                </button>
+                <button id="advancedSettings" class="icon-button" title="高级设置">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
             </div>
         </div>
         <div class="right-panel">
@@ -419,7 +468,31 @@
                 }
             });
         }
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const icon = themeToggle.querySelector('i');
+                icon.classList.toggle('fa-sun');
+                icon.classList.toggle('fa-moon');
+            });
 
+            // Language toggle functionality
+            const languageToggle = document.getElementById('languageToggle');
+            const languages = ['中文', 'English', 'ไทย'];
+            let currentLanguageIndex = 0;
+            languageToggle.addEventListener('click', () => {
+                currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
+                showNotification(`已切换到${languages[currentLanguageIndex]}`);
+                // Implement actual language change logic here
+            });
+
+            // Advanced settings functionality
+            const advancedSettings = document.getElementById('advancedSettings');
+            advancedSettings.addEventListener('click', () => {
+                showNotification('高级设置功能即将推出');
+                // Implement advanced settings logic here
+            });
         function displayResult(result, originalWord) {
             // 显示结果卡片
             document.getElementById('resultCard').style.display = 'block';
@@ -546,8 +619,8 @@
             document.querySelector('#originalWord .section-content').textContent = '';
         }
 
-        function shareResult() {
-        showNotification('正在生成图片...');
+    function shareResult() {
+        showNotification('正在生成分享图片...');
         
         // 选择要截图的元素
         const contentToCapture = document.querySelector('#resultCard');
