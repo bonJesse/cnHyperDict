@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-            <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGYYKNHRZ9"></script>
-        <script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM力量喵V1.3.1-中文词语高级查询</title>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGYYKNHRZ9"></script>
+    <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-HGYYKNHRZ9');
-        </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM力量喵V1.3-中文词语高级查询</title>
+    </script>
+    <!-- External CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        /* Base styles */
         body, html {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-            background-color: #fff8e8; /* 背景色 */
+            background-color: #fff8e8;
             margin: 0;
             padding: 0;
             height: 100%;
             color: #333;
         }
+
+        /* Container layout */
         .container {
             display: flex;
             flex-direction: column;
@@ -30,9 +34,13 @@
             max-width: 1400px;
             margin: 0 auto;
         }
+
+        /* Panel styles */
+        .left-panel, .right-panel {
+            padding: 20px;
+        }
         .left-panel {
             flex: 0 0 auto;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -40,9 +48,10 @@
         }
         .right-panel {
             flex: 1;
-            padding: 20px;
             overflow-y: auto;
         }
+
+        /* Card styles */
         .card {
             background-color: white;
             border-radius: 12px;
@@ -54,6 +63,8 @@
             width: 100%;
             max-width: 400px;
         }
+
+        /* Typography */
         h1 {
             font-weight: 400;
             font-size: 20px;
@@ -62,11 +73,13 @@
             color: #1d1d1f;
             text-align: center;
         }
+
+        /* Button styles */
         .button {
             display: inline-block;
             width: 100%;
             padding: 12px 20px;
-            background-color: rgba(255, 165, 0, 0.8); /* 按钮颜色 */
+            background-color: rgba(255, 165, 0, 0.8);
             color: white;
             border-radius: 8px;
             cursor: pointer;
@@ -80,6 +93,8 @@
         .button:hover {
             background-color: rgba(255, 165, 0, 1);
         }
+
+        /* Input styles */
         #wordInput {
             width: 100%;
             padding: 12px;
@@ -88,8 +103,9 @@
             border-radius: 8px;
             margin-bottom: 15px;
             box-sizing: border-box;
-            position: relative; /* 使清除按钮定位 */
         }
+
+        /* Result styles */
         #result {
             position: relative;
             padding-bottom: 40px;
@@ -104,12 +120,16 @@
         .info-section:hover {
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
+
+        /* Section color coding */
         .word { background-color: #E8F4F8; }
         .pinyin { background-color: #E8F8ED; }
         .part-of-speech { background-color: #FFF8E8; }
         .definition { background-color: #FCE8F1; }
         .thai-definition { background-color: #F0E8F8; }
         .example { background-color: #F3E8F8; }
+
+        /* Copy All button */
         #copyAllButton {
             position: sticky;
             bottom: 20px;
@@ -123,6 +143,8 @@
         #copyAllButton:hover {
             background-color: rgba(255, 165, 0, 0.8);
         }
+
+        /* Dynamic Island notification */
         #dynamicIsland {
             position: fixed;
             top: 20px;
@@ -138,6 +160,8 @@
             max-width: 80%;
             text-align: center;
         }
+
+        /* Copy button for sections */
         .copy-button {
             position: absolute;
             top: 5px;
@@ -154,6 +178,8 @@
         .copy-button:hover {
             background-color: rgba(255, 165, 0, 0.8);
         }
+
+        /* Section styles */
         .section-title {
             font-weight: 500;
             margin-bottom: 10px;
@@ -162,24 +188,73 @@
         .section-content {
             margin-left: 10px;
         }
+
+        /* Clear button */
         .clear-button {
             position: absolute;
             right: 10px;
             top: 50%;
-            transform: translateY(-40%);
-            background: rgba(240, 235, 225, 0.5);
+            transform: translateY(-50%);
+            background: transparent;
+            color: #9c9a9a;
             border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
+            width: 20px;
+            height: 20px;
+            font-size: 18px;
+            line-height: 1;
             cursor: pointer;
-            display: none; /* 默认隐藏 */
+            display: none;
+            padding: 0;
+            text-align: center;
         }
         .clear-button:hover {
-            background: rgba(226, 224, 221, 0.8);
+            color: #666;
         }
 
-        /* 响应式设计 */
+        /* Logo styles */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+            width: 100px;
+            height: 100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .logo-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Input wrapper */
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        /* Share button */
+        .share-button {
+            position: absolute;
+            top: 310px;
+            right: 15px;
+            background-color: #f6a96f;
+            color: rgb(246, 233, 208);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 15px;
+            cursor: pointer;    
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .share-button:hover {
+            background-color: #a5b6ff61;
+        }
+
+        /* Responsive design */
         @media (min-width: 768px) {
             .container {
                 flex-direction: row;
@@ -197,7 +272,7 @@
                 padding: 15px;
             }
             h1 {
-                font-size: 20px;
+                font-size: 18px;
             }
             .button {
                 padding: 10px 15px;
@@ -208,90 +283,40 @@
             .info-section {
                 padding: 10px;
             }
-        }
-        .logo-container {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 5px; /* 减少底部间距 */
-        width: 100px; /* 设置一个固定宽度 */
-        height: 100px; /* 设置一个固定高度 */
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .logo-container svg {
-        width: 100%;
-        height: 100%;
-    }
-
-    @media (max-width: 767px) {
-        .logo-container {
-            width: 50px; /* 在移动设备上稍微缩小logo */
-            height: 50px;
-        }
-    }
-        .input-wrapper {
-            position: relative;
-            width: 100%;
-        }
-        #wordInput {
-            width: 100%;
-            padding: 12px;
-            padding-right: 30px; /* 为清除按钮留出空间 */
-            font-size: 16px;
-            border: 1px solid #d1d1d6;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-        }
-        .clear-button {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%); /* 垂直居中 */
-            background: transparent;
-            color: #9c9a9a; /* 灰色 */
-            border: none;
-            width: 20px;
-            height: 20px;
-            font-size: 18px;
-            line-height: 1;
-            cursor: pointer;
-            display: none; /* 默认隐藏 */
-            padding: 0;
-            text-align: center;
-        }
-        .clear-button:hover {
-            color: #666; /* 悬停时稍深的灰色 */
+            .logo-container {
+                width: 50px;
+                height: 50px;
+            }
+            .share-button {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="left-panel">
-            <!-- 添加logo -->
+            <!-- Logo -->
             <div class="logo-container">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
-                    <!-- 书本形状 -->
+                    <!-- Book shape -->
                     <path d="M10 10 L25 7.5 L40 10 L40 37.5 L25 40 L10 37.5 Z" fill="#FF6600" stroke="#FF6600" stroke-width="0.5"/>
-                    
-                    <!-- 书页 -->
+                    <!-- Book pages -->
                     <path d="M11.25 11.25 L25 9.25 L38.75 11.25 L38.75 36.25 L25 38.25 L11.25 36.25 Z" fill="#FFFFFF" stroke="#FF6600" stroke-width="0.5"/>
-                    
-                    <!-- 书脊 -->
+                    <!-- Book spine -->
                     <path d="M25 7.5 L25 40" fill="none" stroke="#FF6600" stroke-width="0.5"/>
-                    
-                    <!-- 简化的线条 -->
+                    <!-- Simplified lines -->
                     <path d="M15 15 L35 15" stroke="#FF6600" stroke-width="0.5"/>
                     <path d="M15 20 L35 20" stroke="#FF6600" stroke-width="0.5"/>
                     <path d="M15 25 L35 25" stroke="#FF6600" stroke-width="0.5"/>
-                    
-                    <!-- 泰语文字 -->
+                    <!-- Thai text -->
                     <text x="25" y="50" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#FF6600">ก ข ค</text>
-                  </svg>
+                </svg>
             </div>
             <div class="card input-card">
-                <h1>LLM力量喵<br>中文词语高级查询V1.3</h1>
+                <h1>LLM力量喵<br>中文词语高级查询V1.3.1</h1>
                 <div class="input-wrapper">
                     <input type="text" id="wordInput" placeholder="请输入中文词语">
                     <button id="clearButton" class="clear-button">✖</button>
@@ -300,27 +325,46 @@
             </div>
         </div>
         <div class="right-panel">
-            <div class="card">
+            <div id="resultCard" class="card" style="display: none;">
                 <h1>分析结果</h1>
+                <button id="shareButton" class="share-button">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+                <div id="originalWord" class="info-section word">
+                    <div class="section-title">查询词语：</div>
+                    <div class="section-content"></div>
+                </div>
                 <div id="result"></div>
             </div>
-        </div>·
+        </div>
     </div>
-
     <div id="dynamicIsland"></div>
 
+    <!-- External JS libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
+        // API configuration
         const API_KEY = "AIzaSyAkm3iPf54B_kY21bWNGECmx7fhuJ4oLQI";
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
 
+        // DOM elements
         const wordInput = document.getElementById('wordInput');
         const analyzeButton = document.getElementById('analyzeButton');
         const resultDiv = document.getElementById('result');
         const dynamicIsland = document.getElementById('dynamicIsland');
         const clearButton = document.getElementById('clearButton');
 
-        analyzeButton.addEventListener('click', function() {
+        // Event listeners
+        analyzeButton.addEventListener('click', handleAnalyzeClick);
+        wordInput.addEventListener('input', toggleClearButton);
+        clearButton.addEventListener('click', clearInput);
+        document.getElementById('shareButton').addEventListener('click', shareResult);
+        document.addEventListener('selectionchange', handleSelectionChange);
+        document.addEventListener('click', handleDocumentClick);
+
+        // Functions
+        function handleAnalyzeClick() {
             const word = wordInput.value.trim();
             if (word) {
                 resultDiv.textContent = '';
@@ -329,8 +373,7 @@
             } else {
                 showNotification('请输入中文词语');
             }
-        });
-
+        }
         function analyzeWord(word) {
             const requestData = {
                 contents: [{
@@ -364,7 +407,7 @@
                         response.candidates[0].content && response.candidates[0].content.parts &&
                         response.candidates[0].content.parts.length > 0) {
                         const result = response.candidates[0].content.parts[0].text;
-                        displayResult(result, word); // 传递原始输入的文本
+                        displayResult(result, word);
                         showNotification('分析完成');
                     } else {
                         showNotification('分析失败，请重试');
@@ -375,42 +418,46 @@
                     console.error("API Error:", xhr.responseText);
                 }
             });
-        } 
-        function displayResult(result, originalWord) {
-    const sections = result.split('\n\n');
-    let formattedResult = '';
-    sections.forEach(section => {
-        const [title, ...content] = section.split('\n');
-        let className = '';
-        switch (title.toLowerCase()) {
-            case 'word:': className = 'word'; break;
-            case 'pinyin:': className = 'pinyin'; break;
-            case 'part of speech:': className = 'part-of-speech'; break;
-            case 'english definition:': className = 'definition'; break;
-            case 'thai definition:': className = 'thai-definition'; break;
-            case 'example sentences:': className = 'example'; break;
-            default: className = '';
         }
 
-        // 修改拼音部分的显示
-        if (title.toLowerCase() === 'pinyin:') {
-            formattedResult += `
-                <div class="info-section ${className}">
-                    <div class="section-title">${title}</div>
-                    <div class="section-content">${originalWord} ${content.join('<br>')}</div>
-                </div>`;
-        } else {
-            formattedResult += `
-                <div class="info-section ${className}">
-                    <div class="section-title">${title}</div>
-                    <div class="section-content">${content.join('<br>')}</div>
-                </div>`;
+        function displayResult(result, originalWord) {
+            // 显示结果卡片
+            document.getElementById('resultCard').style.display = 'block';
+            // 显示原始查询词语
+            document.querySelector('#originalWord .section-content').textContent = originalWord;
+            const sections = result.split('\n\n');
+            let formattedResult = '';
+            sections.forEach(section => {
+                const [title, ...content] = section.split('\n');
+                let className = '';
+                switch (title.toLowerCase()) {
+                    case 'word:': className = 'word'; break;
+                    case 'pinyin:': className = 'pinyin'; break;
+                    case 'part of speech:': className = 'part-of-speech'; break;
+                    case 'english definition:': className = 'definition'; break;
+                    case 'thai definition:': className = 'thai-definition'; break;
+                    case 'example sentences:': className = 'example'; break;
+                    default: className = '';
+                }
+                if (title.toLowerCase() === 'pinyin:') {
+                    formattedResult += `
+                        <div class="info-section ${className}">
+                            <div class="section-title">${title}</div>
+                            <div class="section-content">${originalWord} ${content.join('<br>')}</div>
+                        </div>`;
+                } else {
+                    formattedResult += `
+                        <div class="info-section ${className}">
+                            <div class="section-title">${title}</div>
+                            <div class="section-content">${content.join('<br>')}</div>
+                        </div>`;
+                }
+            });
+            resultDiv.innerHTML = formattedResult;
+            addCopyButtonsToSections();
+            addCopyAllButton();
         }
-    });
-    resultDiv.innerHTML = formattedResult;
-    addCopyButtonsToSections();
-    addCopyAllButton();
-}
+
         function addCopyButtonsToSections() {
             const sections = resultDiv.querySelectorAll('.info-section');
             sections.forEach(section => {
@@ -455,7 +502,7 @@
             }, 3000);
         }
 
-        document.addEventListener('selectionchange', function() {
+        function handleSelectionChange() {
             const selection = window.getSelection();
             const copyButtons = document.querySelectorAll('.copy-button');
             copyButtons.forEach(button => button.style.display = 'none');
@@ -476,26 +523,58 @@
                 });
                 document.body.appendChild(button);
             }
-        });
+        }
 
-        document.addEventListener('click', function(e) {
+        function handleDocumentClick(e) {
             if (!e.target.classList.contains('copy-button')) {
                 const copyButtons = document.querySelectorAll('.copy-button');
                 copyButtons.forEach(button => button.style.display = 'none');
             }
-        });
+        }
 
-        // 显示清除按钮
-        wordInput.addEventListener('input', function() {
+        function toggleClearButton() {
             clearButton.style.display = wordInput.value ? 'block' : 'none';
-        });
+        }
 
-        // 清除输入框容
-        clearButton.addEventListener('click', function() {
+        function clearInput() {
             wordInput.value = '';
             clearButton.style.display = 'none';
             wordInput.focus();
+            
+            resultDiv.innerHTML = '';
+            document.getElementById('resultCard').style.display = 'none';
+            document.querySelector('#originalWord .section-content').textContent = '';
+        }
+
+        function shareResult() {
+        showNotification('正在生成图片...');
+        
+        // 选择要截图的元素
+        const contentToCapture = document.querySelector('#resultCard');
+        
+        // 暂时隐藏不需要的元素
+        const title = contentToCapture.querySelector('h1');
+        const shareButton = contentToCapture.querySelector('#shareButton');
+        const copyAllButton = contentToCapture.querySelector('#copyAllButton');
+        
+        title.style.display = 'none';
+        shareButton.style.display = 'none';
+        if (copyAllButton) copyAllButton.style.display = 'none';
+        
+        html2canvas(contentToCapture).then(function(canvas) {
+            // 恢复隐藏的元素
+            title.style.display = '';
+            shareButton.style.display = '';
+            if (copyAllButton) copyAllButton.style.display = '';
+            
+            const imgData = canvas.toDataURL('image/jpeg');
+            const link = document.createElement('a');
+            link.href = imgData;
+            link.download = wordInput.value.trim() + '释义分析.jpg';
+            link.click();
+            showNotification('图片已保存');
         });
+    }
     </script>
 </body>
 </html>
