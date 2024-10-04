@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM力量喵V1.3.2-中文词语高级查询</title>
+    <title>LLM力量喵V1.3.3-中文词语高级查询</title>
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGYYKNHRZ9"></script>
     <script>
@@ -567,10 +567,10 @@
             shareButton.style.display = '';
             if (copyAllButton) copyAllButton.style.display = '';
             
-            const imgData = canvas.toDataURL('image/jpeg');
+            const imgData = canvas.toDataURL('image/png');
             const link = document.createElement('a');
             link.href = imgData;
-            link.download = wordInput.value.trim() + '释义分析.jpg';
+            link.download = wordInput.value.trim() + '释义分析.png';
             link.click();
             showNotification('图片已保存');
         });
