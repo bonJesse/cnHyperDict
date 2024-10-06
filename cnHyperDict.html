@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM力量喵V1.3.5-中文词语高级查询</title>
+    <title>LLM力量喵V1.3.6-中文词语高级查询</title>
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGYYKNHRZ9"></script>
     <script>
@@ -101,14 +101,14 @@
             font-size: 16px;
             border: 1px solid #d1d1d6;
             border-radius: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 15spx;
             box-sizing: border-box;
         }
         /* Functionality buttons styles */
         .functionality-buttons {
             display: flex;
             justify-content: space-around;
-            margin-top: 20px;
+            margin-top: -20px;
             width: 100%;
             max-width: 400px;
         }
@@ -185,7 +185,7 @@
         /* Dynamic Island notification */
         #dynamicIsland {
             position: fixed;
-            top: 20px;
+            top: 68px;
             left: 50%;
             transform: translateX(-50%);
             background-color: rgba(0,0,0,0.8);
@@ -195,7 +195,7 @@
             z-index: 1000;
             display: none;
             transition: all 0.3s ease;
-            max-width: 80%;
+            max-width: 90%;
             text-align: center;
         }
 
@@ -339,22 +339,66 @@
             <!-- Logo -->
             <div class="logo-container">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
-                    <!-- Book shape -->
-                    <path d="M10 10 L25 7.5 L40 10 L40 37.5 L25 40 L10 37.5 Z" fill="#FF6600" stroke="#FF6600" stroke-width="0.5"/>
-                    <!-- Book pages -->
-                    <path d="M11.25 11.25 L25 9.25 L38.75 11.25 L38.75 36.25 L25 38.25 L11.25 36.25 Z" fill="#FFFFFF" stroke="#FF6600" stroke-width="0.5"/>
-                    <!-- Book spine -->
-                    <path d="M25 7.5 L25 40" fill="none" stroke="#FF6600" stroke-width="0.5"/>
-                    <!-- Simplified lines -->
-                    <path d="M15 15 L35 15" stroke="#FF6600" stroke-width="0.5"/>
-                    <path d="M15 20 L35 20" stroke="#FF6600" stroke-width="0.5"/>
-                    <path d="M15 25 L35 25" stroke="#FF6600" stroke-width="0.5"/>
-                    <!-- Thai text -->
-                    <text x="25" y="50" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#FF6600">ก ข ค</text>
-                </svg>
+                    <style>
+                      .cat-color { fill: #FF6600; }
+                      .book-color { fill: #FFB366; }
+                      .text { font-family: Arial, sans-serif; font-size: 10px; fill: #FF6600; }
+                      .thai-red { fill: #ED1C24; }
+                      .thai-white { fill: #FFFFFF; }
+                      .thai-blue { fill: #241D4F; }
+                    </style>
+                    
+                    <!-- 猫的身体 -->
+                    <circle cx="25" cy="30" r="15" class="cat-color" />
+                    
+                    <!-- 猫的耳朵 -->
+                    <polygon points="15,20 20,10 25,20" class="cat-color" />
+                    <polygon points="35,20 30,10 25,20" class="cat-color" />
+                    
+                    <!-- 猫的眼睛 - 椭圆形 -->
+                    <ellipse cx="20" cy="25" rx="5" ry="4" fill="#F4E5C4" />
+                    <ellipse cx="30" cy="25" rx="5" ry="4" fill="#F4E5C4" />
+                    
+                    <!-- 泰国国旗颜色的瞳孔 - 红白蓝白红 -->
+                    <ellipse cx="20" cy="25" rx="4" ry="3.2" class="thai-red" />
+                    <ellipse cx="20" cy="25" rx="3.2" ry="2.6" class="thai-white" />
+                    <ellipse cx="20" cy="25" rx="2.4" ry="1.9" class="thai-blue" />
+                    <ellipse cx="20" cy="25" rx="1.6" ry="1.3" class="thai-white" />
+                    <ellipse cx="20" cy="25" rx="0.8" ry="0.6" class="thai-red" />
+                    
+                    <ellipse cx="30" cy="25" rx="4" ry="3.2" class="thai-red" />
+                    <ellipse cx="30" cy="25" rx="3.2" ry="2.6" class="thai-white" />
+                    <ellipse cx="30" cy="25" rx="2.4" ry="1.9" class="thai-blue" />
+                    <ellipse cx="30" cy="25" rx="1.6" ry="1.3" class="thai-white" />
+                    <ellipse cx="30" cy="25" rx="0.8" ry="0.6" class="thai-red" />
+                    
+                    <!-- 猫的鼻子 -->
+                    <circle cx="25" cy="28" r="1" fill="#FFC0CB" />
+                    
+                    <!-- 猫的微笑嘴巴 -->
+                    <path d="M22 31 Q25 33, 28 31" stroke="white" stroke-width="1" fill="none" />
+                    
+                    <!-- 猫的胡须 -->
+                    <line x1="15" y1="30" x2="10" y2="29" stroke="white" stroke-width="1" />
+                    <line x1="15" y1="31" x2="10" y2="31" stroke="white" stroke-width="0.6" />
+                    <line x1="15" y1="32" x2="10" y2="33" stroke="white" stroke-width="1" />
+                    
+                    <line x1="35" y1="30" x2="40" y2="29" stroke="white" stroke-width="1" />
+                    <line x1="35" y1="31" x2="40" y2="31" stroke="white" stroke-width="0.6" />
+                    <line x1="35" y1="32" x2="40" y2="33" stroke="white" stroke-width="1" />
+                    
+                    <!-- 书本 -->
+                    <rect x="10" y="38" width="30" height="6" class="book-color" />
+                    
+                    <!-- 泰语文字的白色背景 -->
+                    <rect x="12" y="38" width="26" height="10" fill="white" />
+                    
+                    <!-- 泰语文字 -->
+                    <text x="14" y="46" class="text">ก ข ค</text>
+                  </svg>
             </div>
             <div class="card input-card">
-                <h1>LLM力量喵<br>中文词语高级查询V1.3.5</h1>
+                <h1>LLM力量喵<br>中文词语高级查询V1.3.6</h1>
                 <div class="input-wrapper">
                     <input type="text" id="wordInput" placeholder="请输入中文词语">
                     <button id="clearButton" class="clear-button">✖</button>
@@ -552,7 +596,9 @@
             copyAllButton.id = 'copyAllButton';
             copyAllButton.className = 'button';
             copyAllButton.addEventListener('click', function() {
-                copyTextToClipboard(resultDiv.innerText);
+                // 获取要复制的文本，排除“复制全文”这四个字
+                const textToCopy = resultDiv.innerText.replace('复制全文', '').trim();
+                copyTextToClipboard(textToCopy);
                 showNotification('已复制全文');
             });
             resultDiv.appendChild(copyAllButton);
