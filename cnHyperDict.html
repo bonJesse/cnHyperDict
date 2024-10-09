@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM力量喵V1.3.6-中文词语高级查询</title>
+    <title>LLM力量喵-中文词语高级查询</title>
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGYYKNHRZ9"></script>
     <script>
@@ -438,8 +438,19 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
         // API configuration
-        const API_KEY = "AIzaSyAkm3iPf54B_kY21bWNGECmx7fhuJ4oLQI";
+        const Gemini_KEY = "QUl6YVN5QWttM2lQZjU0Ql9rWTIxYldOR0VDbXg3Zmh1SjRvTFFJ";
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
+
+        // Function to decode API key
+        function jm(encodedKey) {
+            return atob(encodedKey);
+        }
+
+        // Use this function when making API calls
+        function getApiKey() {
+            const API_KEY = jm(Gemini_KEY);
+            return API_KEY;
+        }
 
         // DOM elements
         const wordInput = document.getElementById('wordInput');
@@ -489,8 +500,10 @@
                 },
             };
 
+            const apiUrl = `${API_URL}?key=${getApiKey()}`;
+
             $.ajax({
-                url: API_URL + "?key=" + API_KEY,
+                url: apiUrl,
                 type: "POST",
                 data: JSON.stringify(requestData),
                 contentType: "application/json",
@@ -507,8 +520,8 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    showNotification('分析失败，请重试');
                     console.error("API Error:", xhr.responseText);
+                    showNotification('分析失败，请重试');
                 }
             });
         }
